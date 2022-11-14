@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Orc : MonoBehaviour
+public class Killing : MonoBehaviour
 {
     [SerializeField] private UnityEvent _meetPlayer;
 

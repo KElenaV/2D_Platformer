@@ -50,18 +50,11 @@ public class OrcMover : MonoBehaviour
     private void ChangeDirection(Direction direction, float rotationEulerY)
     {
         _currentDirection = direction;
-        _isStopped = true;
-        Invoke(nameof(ContinueMove), _stopTime);
         transform.rotation = Quaternion.Euler(Vector3.up * rotationEulerY);
     }
 
     public void Stop()
     {
         _isStopped = true;
-    }
-
-    private void ContinueMove()
-    {
-        _isStopped = false;
     }
 }
