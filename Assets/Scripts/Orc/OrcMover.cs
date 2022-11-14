@@ -24,6 +24,11 @@ public class OrcMover : MonoBehaviour
         Walk();
     }
 
+    public void Stop()
+    {
+        _isStopped = true;
+    }
+
     private void Walk()
     {
         if (_isStopped == false)
@@ -51,10 +56,5 @@ public class OrcMover : MonoBehaviour
     {
         _currentDirection = direction;
         transform.rotation = Quaternion.Euler(Vector3.up * rotationEulerY);
-    }
-
-    public void Stop()
-    {
-        _isStopped = true;
     }
 }

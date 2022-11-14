@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
@@ -38,28 +38,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Return()
-    {
-        _rotationAngle = _directionIndex == (int)Direction.Left ? _leftAngle : _rightAngle;
-        transform.rotation = Quaternion.Euler(Vector3.up * _rotationAngle);
-        _curentDirection = (Direction)_directionIndex;
-    }
-
-    private void Move()
-    {
-        _directionIndex = (int)Input.GetAxisRaw("Horizontal");
-        _rigidbody2d.velocity = new Vector2(_directionIndex * _speed, _rigidbody2d.velocity.y);
-        float speed = Mathf.Abs(_rigidbody2d.velocity.x);
-        _playerAnimation.Run(speed);
-    }
-
-    private void Jump()
-    {
-        _rigidbody2d.velocity = new Vector2(_rigidbody2d.velocity.x, _jumpForce);
-        _isGrounded = false;
-        _onJump?.Invoke();
-    }
-
+    
     private void OnCollisionStay2D(Collision2D collision)
     {
         float maxGroundAngle = 10;
@@ -83,5 +62,27 @@ public class PlayerController : MonoBehaviour
     {
         _playerAnimation.Die();
         Destroy(gameObject, 3.5f);
+    }
+
+    private void Jump()
+    {
+        _rigidbody2d.velocity = new Vector2(_rigidbody2d.velocity.x, _jumpForce);
+        _isGrounded = false;
+        _onJump?.Invoke();
+    }
+
+    private void Return()
+    {
+        _rotationAngle = _directionIndex == (int)Direction.Left ? _leftAngle : _rightAngle;
+        transform.rotation = Quaternion.Euler(Vector3.up * _rotationAngle);
+        _curentDirection = (Direction)_directionIndex;
+    }
+
+    private void Move()
+    {
+        _directionIndex = (int)Input.GetAxisRaw("Horizontal");
+        _rigidbody2d.velocity = new Vector2(_directionIndex * _speed, _rigidbody2d.velocity.y);
+        float speed = Mathf.Abs(_rigidbody2d.velocity.x);
+        _playerAnimation.Run(speed);
     }
 }

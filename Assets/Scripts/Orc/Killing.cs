@@ -7,13 +7,13 @@ public class Killing : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.TryGetComponent(out PlayerController player))
+        if(collision.gameObject.TryGetComponent(out PlayerMover player))
         {
             Kill(player);
         }
     }
 
-    private void Kill(PlayerController player)
+    private void Kill(PlayerMover player)
     {
         _meetPlayer?.Invoke();
         LookOnTarget(player.transform);
@@ -22,8 +22,9 @@ public class Killing : MonoBehaviour
 
     private void LookOnTarget(Transform target)
     {
+        var XAxisOrientation = 90;
         var direction = target.position - transform.position;
-        var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg - 90;
+        var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg - XAxisOrientation;
         transform.rotation = Quaternion.Euler(0, angle, 0);
     }
 }
