@@ -5,5 +5,4 @@ enum Direction
 }
 public class Enums
 {
-    
 }

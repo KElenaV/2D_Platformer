@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
         }
         Move();
 
-        if((int)_curentDirection != _directionIndex && _directionIndex != 0)
+        if ((int)_curentDirection != _directionIndex && _directionIndex != 0)
         {
             Return();
         }
@@ -62,15 +62,21 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        float maxGroundAngle = 10; 
+        float maxGroundAngle = 10;
 
-        if(collision.gameObject.TryGetComponent(out Floor floor))
+        if (collision.gameObject.TryGetComponent(out Floor floor))
         {
-            if(Vector2.Angle(collision.contacts[0].normal, Vector2.up) <= maxGroundAngle)
+            if (Vector2.Angle(collision.contacts[0].normal, Vector2.up) <= maxGroundAngle)
             {
                 _isGrounded = true;
             }
         }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out Floor floor))
+            _isGrounded = false;
     }
 
     public void Die()
