@@ -1,19 +1,12 @@
 using UnityEngine;
 
-//public enum Direction
-//{
-//    Left = -1,
-//    Stay = 0,
-//    Right = 1
-//}
-
 public class OrcMover : MonoBehaviour
 {
+    [SerializeField] private float _speed;
+    [SerializeField] private float _stopTime;
+    [SerializeField] private float _rotationSpeed;
     [SerializeField] private Transform _leftTarget;
     [SerializeField] private Transform _rightTarget;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _rotationSpeed;
-    [SerializeField] private float _stopTime;
     [SerializeField] private Direction _currentDirection;
 
     private bool _isStopped;
