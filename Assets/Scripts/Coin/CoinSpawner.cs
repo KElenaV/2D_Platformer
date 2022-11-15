@@ -11,14 +11,19 @@ public class CoinSpawner : MonoBehaviour
     {
         _spawnPoints = GetComponentsInChildren<Point>();
 
-        for (int i = 0; i < _requiredCoinsCount;)
+        CreateCoins(_requiredCoinsCount);
+    }
+
+    public void CreateCoins(int coinsCount)
+    {
+        for (int i = 0; i < coinsCount;)
         {
-            if (CreateOneCoin())
+            if (TryCreateOneCoin())
                 i++;
         }
     }
 
-    public bool CreateOneCoin()
+    private bool TryCreateOneCoin()
     {
         Transform parent = _spawnPoints[Random.Range(0, _spawnPoints.Length)].transform;
 

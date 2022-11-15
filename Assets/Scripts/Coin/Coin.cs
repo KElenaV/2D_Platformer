@@ -15,8 +15,9 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        int coinsCount = 1;
         GetComponentInParent<AudioSource>().Play();
-        GetComponentInParent<CoinSpawner>().CreateOneCoin();
+        GetComponentInParent<CoinSpawner>().CreateCoins(coinsCount);
         Destroy(gameObject);
     }
 }
