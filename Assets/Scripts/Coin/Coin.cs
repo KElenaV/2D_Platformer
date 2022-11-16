@@ -1,6 +1,5 @@
 using UnityEngine;
 using DG.Tweening;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Coin : MonoBehaviour
@@ -15,7 +14,7 @@ public class Coin : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Delete();
-        Create();
+        GetComponentInParent<CoinSpawner>().CreateOneCoin();
     }
 
     private void Blink()
@@ -28,11 +27,5 @@ public class Coin : MonoBehaviour
     {
         GetComponentInParent<AudioSource>().Play();
         Destroy(gameObject);
-    }
-
-    private void Create()
-    {
-        int coinsCount = 1;
-        GetComponentInParent<CoinSpawner>().CreateCoins(coinsCount);
     }
 }

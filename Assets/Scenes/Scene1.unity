@@ -1312,6 +1312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coinTemplate: {fileID: 1989946083, guid: c31cf44e7303fad4e9d9799c50f397a5, type: 3}
+  _initialNumberCoins: 5
 --- !u!82 &664889592
 AudioSource:
   m_ObjectHideFlags: 0

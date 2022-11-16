@@ -3,32 +3,43 @@ using UnityEngine;
 public class CoinSpawner : MonoBehaviour
 {
     [SerializeField] private Coin _coinTemplate;
+    [SerializeField] private int _initialNumberCoins;
 
-    private int _maxCoinNumber;
     private Point[] _spawnPoints;
-    private int _requiredCoinsCount = 3;
+    private Transform _free;
+    private int _maxCoinNumber;
 
     private void Awake()
     {
         _spawnPoints = GetComponentsInChildren<Point>();
         _maxCoinNumber = _spawnPoints.Length;
 
-        CreateCoins(_requiredCoinsCount);
+        CreateCoins();
     }
 
-    public void CreateCoins(int coinsCount)
+    public void CreateOneCoin()
     {
-        coinsCount = coinsCount > _maxCoinNumber ? _maxCoinNumber : coinsCount;
+        GetFreePosition();
+        Instantiate(_coinTemplate, _free.position, Quaternion.identity, _free);
+    }
 
-        for (int i = 0; i < coinsCount;)
+    private void CreateCoins()
+    {
+        if (_initialNumberCoins > _maxCoinNumber)
+            _initialNumberCoins = _maxCoinNumber;
+
+        for (int i = 0; i < _initialNumberCoins; i++)
         {
-            Transform parent = _spawnPoints[Random.Range(0, _maxCoinNumber)].transform;
-
-            if(parent.childCount == 0)
-            {
-                Instantiate(_coinTemplate, parent.position, Quaternion.identity, parent);
-                i++;
-            }
+            CreateOneCoin();
         }
+    }
+
+    private void GetFreePosition()
+    {
+        do
+        {
+            _free = _spawnPoints[Random.Range(0, _maxCoinNumber)].transform;
+        }
+        while (_free.childCount != 0);
     }
 }
