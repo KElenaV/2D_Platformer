@@ -351,6 +351,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8560426066301855076, guid: 36a48c30f711b244e9b9262823d07978, type: 3}
+      propertyPath: _currentDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9023370598503567920, guid: 36a48c30f711b244e9b9262823d07978, type: 3}
       propertyPath: m_Name
       value: Orc (4)
@@ -1308,7 +1312,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coinTemplate: {fileID: 1989946083, guid: c31cf44e7303fad4e9d9799c50f397a5, type: 3}
-  _spawnPoints: []
 --- !u!82 &664889592
 AudioSource:
   m_ObjectHideFlags: 0

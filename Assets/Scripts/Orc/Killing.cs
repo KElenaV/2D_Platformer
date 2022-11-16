@@ -5,9 +5,11 @@ public class Killing : MonoBehaviour
 {
     [SerializeField] private UnityEvent _meetPlayer;
 
+    private bool _isKilled;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.TryGetComponent(out PlayerMover player))
+        if(collision.gameObject.TryGetComponent(out PlayerMover player) && _isKilled == false)
         {
             Kill(player);
         }
@@ -15,6 +17,7 @@ public class Killing : MonoBehaviour
 
     private void Kill(PlayerMover player)
     {
+        _isKilled = true;
         _meetPlayer?.Invoke();
         LookOnTarget(player.transform);
         player.Die();
@@ -22,9 +25,10 @@ public class Killing : MonoBehaviour
 
     private void LookOnTarget(Transform target)
     {
-        var XAxisOrientation = 90;
-        var direction = target.position - transform.position;
-        var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg - XAxisOrientation;
-        transform.rotation = Quaternion.Euler(0, angle, 0);
+        int leftDirection = -1;
+        int rightDirection = 1;
+        float distanse = target.position.x - transform.position.x;
+        int toTargetDirection = distanse < 0 ? leftDirection : rightDirection;
+        transform.localScale = new Vector3(toTargetDirection, 1, 1);
     }
 }

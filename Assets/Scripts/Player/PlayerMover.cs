@@ -7,12 +7,9 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
 
-    private int _directionIndex;
-    private bool _isGrounded = true;
-    private float _rotationAngle;
-    private float _leftAngle = 180;
-    private float _rightAngle = 0;
-    private Direction _curentDirection;
+    private int _inputDirection;
+    private int _currentDirection;
+    private bool _isGrounded;
     private Rigidbody2D _rigidbody2d;
     private PlayerAnimation _playerAnimation;
 
@@ -32,12 +29,11 @@ public class PlayerMover : MonoBehaviour
         }
         Move();
 
-        if ((int)_curentDirection != _directionIndex && _directionIndex != 0)
+        if(_inputDirection != _currentDirection && _inputDirection != 0)
         {
             Return();
         }
     }
-
     
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -73,15 +69,14 @@ public class PlayerMover : MonoBehaviour
 
     private void Return()
     {
-        _rotationAngle = _directionIndex == (int)Direction.Left ? _leftAngle : _rightAngle;
-        transform.rotation = Quaternion.Euler(Vector3.up * _rotationAngle);
-        _curentDirection = (Direction)_directionIndex;
+        transform.localScale = new Vector3(_inputDirection, 1, 1);
+        _currentDirection = _inputDirection;
     }
 
     private void Move()
     {
-        _directionIndex = (int)Input.GetAxisRaw("Horizontal");
-        _rigidbody2d.velocity = new Vector2(_directionIndex * _speed, _rigidbody2d.velocity.y);
+        _inputDirection = (int)Input.GetAxisRaw("Horizontal");
+        _rigidbody2d.velocity = new Vector2(_inputDirection * _speed, _rigidbody2d.velocity.y);
         float speed = Mathf.Abs(_rigidbody2d.velocity.x);
         _playerAnimation.Run(speed);
     }

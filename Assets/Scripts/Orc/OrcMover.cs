@@ -3,15 +3,12 @@ using UnityEngine;
 public class OrcMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private float _stopTime;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private Transform _leftTarget;
     [SerializeField] private Transform _rightTarget;
     [SerializeField] private Direction _currentDirection;
 
     private bool _isStopped;
-    private float _leftEulerY = 180;
-    private float _rightEuler = 0;
 
     private void Start()
     {
@@ -39,22 +36,28 @@ public class OrcMover : MonoBehaviour
             {
                 if (transform.position.x < _leftTarget.position.x)
                 {
-                    ChangeDirection(Direction.Right, _rightEuler);
+                    ChangeDirection(Direction.Right);
                 }
             }
             else
             {
                 if (transform.position.x > _rightTarget.position.x)
                 {
-                    ChangeDirection(Direction.Left, _leftEulerY);
+                    ChangeDirection(Direction.Left);
                 }
             }
         }
     }
 
-    private void ChangeDirection(Direction direction, float rotationEulerY)
+    private void ChangeDirection(Direction direction)
     {
         _currentDirection = direction;
-        transform.rotation = Quaternion.Euler(Vector3.up * rotationEulerY);
+        transform.localScale = new Vector3((int)direction, 1, 1);
+    }
+
+    enum Direction
+    {
+        Left = -1,
+        Right = 1
     }
 }
