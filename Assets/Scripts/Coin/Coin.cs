@@ -1,10 +1,13 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Coin : MonoBehaviour
 {
     private SpriteRenderer _renderer;
+
+    public event UnityAction Collected;
 
     private void Start()
     {
@@ -13,8 +16,11 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Delete();
-        GetComponentInParent<CoinSpawner>().CreateOneCoin();
+        if(collision.TryGetComponent(out PlayerMover player))
+        {
+            DeleteFromScene();
+            Collected?.Invoke();
+        }
     }
 
     private void Blink()
@@ -23,9 +29,9 @@ public class Coin : MonoBehaviour
         _renderer.DOFade(0, 1.5f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
     }
 
-    private void Delete()
+    private void DeleteFromScene()
     {
         GetComponentInParent<AudioSource>().Play();
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

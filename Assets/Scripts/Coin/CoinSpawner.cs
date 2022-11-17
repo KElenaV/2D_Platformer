@@ -1,45 +1,71 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using UnityEngine.Events;
 
 public class CoinSpawner : MonoBehaviour
 {
-    [SerializeField] private Coin _coinTemplate;
-    [SerializeField] private int _initialNumberCoins;
-
-    private Point[] _spawnPoints;
-    private Transform _free;
+    [SerializeField] private int _initialCoinsNumber;
+    [SerializeField] private Coin[] _allCoins;
+    
     private int _maxCoinNumber;
 
     private void Awake()
     {
-        _spawnPoints = GetComponentsInChildren<Point>();
-        _maxCoinNumber = _spawnPoints.Length;
-
+        _allCoins = GetComponentsInChildren<Coin>(true);
+        _maxCoinNumber = _allCoins.Length;
+        
         CreateCoins();
+    }
+
+    private void OnEnable()
+    {
+        foreach (var coin in _allCoins)
+        {
+            coin.Collected += CreateOneCoin;
+        }
+    }
+
+    private void OnDisable()
+    {
+        foreach (var coin in _allCoins)
+        {
+            coin.Collected -= CreateOneCoin;
+        }
     }
 
     public void CreateOneCoin()
     {
-        GetFreePosition();
-        Instantiate(_coinTemplate, _free.position, Quaternion.identity, _free);
+        Coin coin = FindCoinOrDefault();
+
+        if(coin != null)
+            coin.gameObject.SetActive(true);
+    }
+
+    private Coin FindCoinOrDefault()
+    {
+        List<Coin> freeCoins = new();
+        freeCoins = _allCoins.Where(coin => coin.isActiveAndEnabled == false).ToList();
+
+        if(freeCoins.Count == 0)
+        {
+            return null;
+        }
+
+        Coin freeCoin = freeCoins[Random.Range(0, freeCoins.Count)];
+
+        return freeCoin;
     }
 
     private void CreateCoins()
     {
-        if (_initialNumberCoins > _maxCoinNumber)
-            _initialNumberCoins = _maxCoinNumber;
+        if (_initialCoinsNumber > _maxCoinNumber)
+            _initialCoinsNumber = _maxCoinNumber;
 
-        for (int i = 0; i < _initialNumberCoins; i++)
+        for (int i = 0; i < _initialCoinsNumber; i++)
         {
             CreateOneCoin();
         }
-    }
-
-    private void GetFreePosition()
-    {
-        do
-        {
-            _free = _spawnPoints[Random.Range(0, _maxCoinNumber)].transform;
-        }
-        while (_free.childCount != 0);
     }
 }

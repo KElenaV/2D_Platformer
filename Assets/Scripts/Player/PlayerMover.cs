@@ -10,6 +10,7 @@ public class PlayerMover : MonoBehaviour
     private int _inputDirection;
     private int _currentDirection;
     private bool _isGrounded;
+    private bool _isDead;
     private Rigidbody2D _rigidbody2d;
     private PlayerAnimation _playerAnimation;
 
@@ -23,15 +24,18 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+        if(_isDead == false)
         {
-            Jump();
-        }
-        Move();
+            if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+            {
+                Jump();
+            }
+            Move();
 
-        if(_inputDirection != _currentDirection && _inputDirection != 0)
-        {
-            Return();
+            if (_inputDirection != _currentDirection && _inputDirection != 0)
+            {
+                Return();
+            }
         }
     }
     
@@ -56,6 +60,7 @@ public class PlayerMover : MonoBehaviour
 
     public void Die()
     {
+        _isDead = true;
         _playerAnimation.Die();
         Destroy(gameObject, 3.5f);
     }

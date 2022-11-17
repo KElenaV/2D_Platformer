@@ -27,8 +27,8 @@ public class Killing : MonoBehaviour
     {
         int leftDirection = -1;
         int rightDirection = 1;
-        float distanse = target.position.x - transform.position.x;
-        int toTargetDirection = distanse < 0 ? leftDirection : rightDirection;
+        bool targetOnLeft = (target.position.x - transform.position.x) < 0;
+        int toTargetDirection = targetOnLeft ? leftDirection : rightDirection;
         transform.localScale = new Vector3(toTargetDirection, 1, 1);
     }
 }
